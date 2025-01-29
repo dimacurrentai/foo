@@ -25,9 +25,6 @@ const server = http.createServer((req, res) => {
       } catch (e) {
         res.end(`NOT A JSON: ${e}\n`);
       }
-      res.writeHead(200, {
-        'Content-Type': 'application/json'
-      });
     });
   } else {
     res.writeHead(200, {
