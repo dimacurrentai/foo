@@ -13,10 +13,14 @@ process.on("SIGTERM", () => {
 const PORT = 8888;
 
 const server = http.createServer((req, res) => {
-  res.writeHead(200, {
-    "Content-Type": "text/plain"
-  });
-  res.end("Hello, World!\n");
+  if (req.url == "/e") {
+    res.end("TY!\n");
+  } else {
+    res.writeHead(200, {
+      "Content-Type": "text/plain"
+    });
+    res.end('Please POST a JSON to `/e`.\n');
+  }
 });
 
 server.listen(PORT, () => {
