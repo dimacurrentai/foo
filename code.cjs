@@ -13,19 +13,26 @@ process.on("SIGTERM", () => {
 const PORT = 8888;
 
 const server = http.createServer((req, res) => {
-  if (req.url == "/e" && req.method == "POST") {
-    let s = '';
-    req.on("data", c => {
-      s += c.toString();
-    });
-    req.on("end", () => {
-      try {
-        const j = JSON.parse(s);
-        res.end(`RECEIVED:\n${JSON.stringify(j, null, 2)}\n`);
-      } catch (e) {
-        res.end(`NOT A JSON: ${e}\n`);
-      }
-    });
+  if (req.url == "/e") {
+    if (req.method == "POST") {
+      let s = '';
+      req.on("data", c => {
+        s += c.toString();
+      });
+      req.on("end", () => {
+        try {
+          const j = JSON.parse(s);
+          res.end(`RECEIVED:\n${JSON.stringify(j, null, 2)}\n`);
+        } catch (e) {
+          res.end(`NOT A JSON: ${e}\n`);
+        }
+      });
+    } else {
+      res.writeHead(200, {
+        "Content-Type": "text/plain"
+      });
+      res.end("Please POST it.\n");
+    }
   } else {
     res.writeHead(200, {
       "Content-Type": "text/plain"
