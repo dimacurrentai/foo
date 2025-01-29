@@ -13,8 +13,22 @@ process.on("SIGTERM", () => {
 const PORT = 8888;
 
 const server = http.createServer((req, res) => {
-  if (req.url == "/e") {
-    res.end("TY!\n");
+  if (req.url == "/e" && req.method == "POST") {
+    let s = '';
+    req.on("data", c => {
+      s += c.toString();
+    });
+    req.on("end", () => {
+      try {
+        const j = JSON.parse(s);
+        res.end(`RECEIVED:\n${JSON.stringify(j, null, 2)}\n`);
+      } catch (e) {
+        res.end(`NOT A JSON: ${e}\n`);
+      }
+      res.writeHead(200, {
+        'Content-Type': 'application/json'
+      });
+    });
   } else {
     res.writeHead(200, {
       "Content-Type": "text/plain"
