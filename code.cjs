@@ -34,6 +34,7 @@ const server = http.createServer((req, res) => {
       res.end("Please POST it.\n");
     }
   } else if (req.url == "/q") {
+    console.log('Received `/q`, quitting.');
     res.writeHead(200, {
       "Content-Type": "text/plain"
     });
