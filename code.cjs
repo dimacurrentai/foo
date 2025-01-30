@@ -33,6 +33,14 @@ const server = http.createServer((req, res) => {
       });
       res.end("Please POST it.\n");
     }
+  } else if (req.url == "/q") {
+    res.writeHead(200, {
+      "Content-Type": "text/plain"
+    });
+    res.end("Quitting.\n");
+    setTimeout(() => {
+      process.exit(0);
+    }, 50);
   } else {
     res.writeHead(200, {
       "Content-Type": "text/plain"
